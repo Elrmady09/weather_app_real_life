@@ -16,24 +16,34 @@ class HomeScreen extends StatelessWidget {
     prov.loadToday('Los Angeles');
 
     final size = MediaQuery.of(context).size;
-    return Scaffold(
-      body: Stack(
-        children: [
-          // الخلفية كاملة
-          Container(color: AppColors.cloudyBg),
-          // المحتوى
-          Column(
-            children: [
-              const HeightSpace(space: 0.04),
-              const HeightSpace(space: 0.02),
-              if (prov.today != null)
-                WeatherCard(data: prov.today!),
-              const HeightSpace(space: 0.02),
-              const ForecastRow(),
-              // ...يمكن إضافة المزيد من المحتوى أسفل
-            ],
-          ),
-        ],
+    return SafeArea(
+      child: Scaffold(
+        body: Stack(
+          children: [
+            // الخلفية كاملة
+            Container(
+                //color: AppColors.cloudyBg,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage('assets/images/home/cloud1.jpg'),
+                  fit: BoxFit.cover,
+                ),
+              ),
+
+            ),
+            // المحتوى
+            Column(
+              children: [
+                const HeightSpace(space: 0.06),
+                if (prov.today != null)
+                  WeatherCard(data: prov.today!),
+                const HeightSpace(space: 0.02),
+                const ForecastRow(),
+
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
