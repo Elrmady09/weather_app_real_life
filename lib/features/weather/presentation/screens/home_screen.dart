@@ -13,7 +13,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final prov = Provider.of<WeatherProvider>(context);
-    prov.loadToday('Los Angeles');
+    prov.loadToday('Liverpool');
 
     final size = MediaQuery.of(context).size;
     return SafeArea(

@@ -6,6 +6,11 @@ class WeatherModel {
   final int feelsLike;
   final String iconAsset; // e.g. "assets/cloud.svg"
 
+  // ✅ جديد: بيانات درجات الحرارة لكل ساعة
+  final List<int> hourlyTemps; // درجات الحرارة لكل ساعة
+  final List<DateTime> hourlyTimes; // الأوقات المقابلة لتلك الساعات
+
+
   WeatherModel({
     required this.condition,
     required this.temp,
@@ -13,5 +18,7 @@ class WeatherModel {
     required this.date,
     required this.feelsLike,
     required this.iconAsset,
+    required this.hourlyTemps,
+    required this.hourlyTimes,
   });
 }

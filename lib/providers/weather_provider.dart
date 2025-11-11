@@ -8,10 +8,25 @@ class WeatherProvider extends ChangeNotifier {
   WeatherModel? today;
   WeatherModel? _currentWeather; // ✅ أضفناها
 
+
+  // ✅ قوائم جديدة لتخزين درجات الحرارة والساعات القادمة
+
+  List<int> hourlyTemps = []; // ← قائمة درجات الحرارة لكل ساعة
+  List<DateTime> hourlyTimes = []; // ← قائمة الأوقات المقابلة لكل درجة حرارة
+
+
   // 🔹 تحميل بيانات طقس اليوم
   Future<void> loadToday(String city) async {
     today = await _service.fetchTodayWeather(city);
     _currentWeather = today; // ✅ نحدث currentWeather بنفس القيمة
+
+
+    // ✅ نحفظ القوائم القادمة من WeatherModel في مزود الحالة
+
+    hourlyTemps = today?.hourlyTemps ?? [];
+    hourlyTimes = today?.hourlyTimes ?? [];
+
+
     notifyListeners();
   }
 

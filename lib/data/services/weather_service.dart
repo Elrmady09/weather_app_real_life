@@ -11,6 +11,27 @@ class WeatherService {
     final res = await http.get(url);
     final data = json.decode(res.body);
 
+
+    // 🔸 2. نطلب بيانات الطقس القادمة (كل 3 ساعات من forecast API)
+    final forecastUrl = Uri.parse('$_baseUrl/forecast?q=$city&units=metric&appid=$_apiKey');
+    final forecastRes = await http.get(forecastUrl);
+    final forecastData = json.decode(forecastRes.body);
+
+
+    // 🔹 نأخذ أول 9 عناصر فقط من بيانات التوقعات
+    final List<int> hourlyTemps = [];
+    final List<DateTime> hourlyTimes = [];
+
+    // تحليل أول 9 ساعات فقط
+    for (int i = 0; i < 10 && i < forecastData['list'].length; i++) {
+      final item = forecastData['list'][i];
+      hourlyTemps.add((item['main']['temp'] as num).round());
+
+      // نحول التاريخ من نص إلى كائن DateTime
+      hourlyTimes.add(DateTime.parse(item['dt_txt']));
+    }
+
+
     return WeatherModel(
       condition: data['weather'][0]['main'],
       temp: (data['main']['temp'] as num).round(),
@@ -18,6 +39,8 @@ class WeatherService {
       date: DateTime.now(),
       feelsLike: (data['main']['feels_like'] as num).round(),
       iconAsset: 'assets/${data['weather'][0]['icon']}.svg',
+      hourlyTemps: hourlyTemps,
+      hourlyTimes: hourlyTimes,
     );
   }
 }
